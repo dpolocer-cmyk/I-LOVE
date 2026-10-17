@@ -1,0 +1,574 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Para alguien especial ❤️</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: "Segoe UI", sans-serif;
+      color: #63264d;
+      min-height: 100vh;
+      background: linear-gradient(135deg, #ffe0ed, #f1e4ff, #fff0f5);
+      overflow-x: hidden;
+    }
+
+    header {
+      text-align: center;
+      padding: 30px 15px 20px;
+    }
+
+    header h1 {
+      color: #c02675;
+      font-size: clamp(28px, 6vw, 44px);
+      margin-bottom: 10px;
+    }
+
+    nav {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 10px;
+      padding: 10px 15px 25px;
+    }
+
+    button {
+      font-family: inherit;
+      cursor: pointer;
+      border: none;
+      transition: transform 0.2s;
+    }
+
+    nav button {
+      background: white;
+      color: #b52370;
+      border: 2px solid #f5b6d6;
+      border-radius: 25px;
+      padding: 11px 17px;
+      font-size: 14px;
+      font-weight: bold;
+    }
+
+    nav button:hover {
+      background: #fce7f3;
+      transform: translateY(-2px);
+    }
+
+    main {
+      width: min(900px, 92%);
+      margin: 0 auto;
+      padding-bottom: 30px;
+    }
+
+    .screen {
+      display: none;
+      animation: aparecer 0.45s ease;
+    }
+
+    .screen.active {
+      display: block;
+    }
+
+    @keyframes aparecer {
+      from { opacity: 0; transform: translateY(12px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .card {
+      background: rgba(255, 255, 255, 0.9);
+      border: 1px solid #ffd0e5;
+      border-radius: 25px;
+      padding: clamp(22px, 5vw, 40px);
+      text-align: center;
+      box-shadow: 0 12px 35px rgba(183, 71, 132, 0.13);
+      margin-bottom: 25px;
+    }
+
+    .card h2 {
+      color: #c02675;
+      font-size: clamp(25px, 5vw, 34px);
+      margin-bottom: 18px;
+    }
+
+    .card p {
+      line-height: 1.8;
+      margin-bottom: 14px;
+    }
+
+    .big-heart {
+      font-size: 75px;
+      margin: 10px 0 20px;
+      animation: latido 1.2s infinite;
+    }
+
+    @keyframes latido {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.13); }
+    }
+
+    .main-button {
+      background: linear-gradient(135deg, #ec4899, #a855f7);
+      color: white;
+      padding: 13px 24px;
+      border-radius: 30px;
+      font-weight: bold;
+      font-size: 15px;
+      margin: 8px 4px;
+      box-shadow: 0 5px 15px #e9a3ce66;
+    }
+
+    .main-button:hover {
+      transform: scale(1.04);
+    }
+
+    /* Juego de corazones */
+
+    .game-info {
+      font-weight: bold;
+      color: #b52370;
+      margin: 10px 0 20px;
+    }
+
+    #heartArena {
+      position: relative;
+      height: 300px;
+      overflow: hidden;
+      background: linear-gradient(135deg, #fff0f7, #f5eaff);
+      border: 2px dashed #e9a3ce;
+      border-radius: 20px;
+      margin: 20px 0;
+    }
+
+    .game-heart {
+      position: absolute;
+      background: transparent;
+      font-size: 34px;
+      border: none;
+    }
+
+    #gameResult {
+      color: #c02675;
+      font-weight: bold;
+      min-height: 30px;
+    }
+
+    /* ¿Me quieres? */
+
+    .love-arena {
+      position: relative;
+      min-height: 150px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 18px;
+      margin: 20px auto;
+      max-width: 430px;
+    }
+
+    #yesBtn {
+      position: relative;
+      z-index: 2;
+    }
+
+    #noBtn {
+      background: #e5e7eb;
+      color: #555;
+      padding: 13px 24px;
+      border-radius: 30px;
+      font-weight: bold;
+      position: relative;
+    }
+
+    #loveSuccess {
+      display: none;
+      color: #c02675;
+      font-size: 23px;
+      font-weight: bold;
+      margin-top: 20px;
+    }
+
+    #noMessage {
+      min-height: 50px;
+      color: #a21caf;
+      font-weight: bold;
+    }
+
+    /* Carta */
+
+    .letter {
+      background: #fff9fc;
+      border: 2px dashed #f3a6cd;
+      padding: 25px;
+      border-radius: 18px;
+      text-align: left;
+      line-height: 1.9;
+      white-space: pre-line;
+    }
+
+    footer {
+      text-align: center;
+      padding: 20px;
+      color: #a34b7e;
+      font-size: 13px;
+    }
+
+    /* Corazones flotantes */
+
+    .floating-heart {
+      position: fixed;
+      bottom: -40px;
+      z-index: -1;
+      pointer-events: none;
+      animation: flotar linear forwards;
+      opacity: 0.6;
+    }
+
+    @keyframes flotar {
+      from {
+        transform: translateY(0) rotate(0deg);
+        opacity: 0.7;
+      }
+      to {
+        transform: translateY(-115vh) rotate(35deg);
+        opacity: 0;
+      }
+    }
+
+    @media (max-width: 480px) {
+      nav {
+        gap: 7px;
+      }
+
+      nav button {
+        padding: 10px 12px;
+        font-size: 13px;
+      }
+
+      #heartArena {
+        height: 250px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <header>
+    <h1>Para alguien muy especial ❤️</h1>
+    <p>Hice esta pequeña página pensando en ti. 💗</p>
+  </header>
+
+  <nav>
+    <button onclick="openScreen('inicio')">🏠 Inicio</button>
+    <button onclick="openScreen('atrapa')">💗 Atrapa corazones</button>
+    <button onclick="openScreen('amor')">🥰 ¿Me quieres?</button>
+    <button onclick="openScreen('mensaje')">💌 Mensajito</button>
+  </nav>
+
+  <main>
+
+    <!-- INICIO -->
+    <section id="inicio" class="screen active">
+      <div class="card">
+        <div class="big-heart">💖</div>
+        <h2>¡Hola, mi personita especial!</h2>
+
+        <p>
+          Si estás viendo esto, quiero que sepas que alguien
+          pensó en ti y quiso regalarte un pequeño detalle. ❤️
+        </p>
+
+        <p>
+          Esta página es pequeña, pero está hecha con mucho cariño.
+          Explora cada rincón, juega un poquito y lee tu mensajito.
+        </p>
+
+        <p>Espero sacarte una sonrisa. 🥹💕</p>
+
+        <button class="main-button" onclick="openScreen('mensaje')">
+          Tengo algo que decirte 💌
+        </button>
+      </div>
+    </section>
+
+    <!-- ATRAPA CORAZONES -->
+    <section id="atrapa" class="screen">
+      <div class="card">
+        <h2>💗 Atrapa corazones</h2>
+
+        <p>
+          ¡Atrapa todos los corazones que puedas en 15 segundos!
+          Cada corazón que toques suma un punto.
+        </p>
+
+        <div class="game-info">
+          Puntos: <span id="score">0</span>
+          &nbsp; | &nbsp;
+          Tiempo: <span id="time">15</span>s
+        </div>
+
+        <button class="main-button" id="startGame" onclick="startGame()">
+          ¡Empezar juego! 💕
+        </button>
+
+        <div id="heartArena"></div>
+        <div id="gameResult"></div>
+      </div>
+    </section>
+
+    <!-- ¿ME QUIERES? -->
+    <section id="amor" class="screen">
+      <div class="card">
+        <div class="big-heart">🥹❤️</div>
+        <h2>Quiero preguntarte algo...</h2>
+        <p style="font-size: 20px;">¿Me quieres? 🥺💕</p>
+
+        <div class="love-arena" id="loveArena">
+          <button class="main-button" id="yesBtn" onclick="sayYes()">
+            ¡Sí, te quiero! ❤️
+          </button>
+
+          <button id="noBtn" type="button">No 🙈</button>
+        </div>
+
+        <p id="noMessage">Piénsalo bien antes de responder... 👀</p>
+
+        <div id="loveSuccess">
+          ¡Yo sabía que me querías! 😍💖
+
+          <p style="font-size: 16px; margin-top: 10px;">
+            Te mando un abrazo enorme y muchos besitos. 😘
+          </p>
+
+          <button class="main-button" onclick="restartLoveGame()">
+            Otra vez 💗
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- MENSAJITO -->
+    <section id="mensaje" class="screen">
+      <div class="card">
+        <h2>💌 Un mensajito para ti</h2>
+
+        <div class="letter">Hola, mi persona especial. ❤️
+
+Quería regalarte algo diferente, algo que pudieras abrir y que te recordara lo mucho que significas para mí.
+
+Tal vez sea una página sencilla, pero detrás de ella hay tiempo, ilusión y muchas ganas de hacerte sonreír.
+
+Gracias por existir, por ser tú y por tener ese algo que hace especiales hasta los momentos más simples.
+
+Ojalá que cada vez que vuelvas a ver esta página recuerdes que hay alguien que quiso dedicarte un pedacito de su tiempo y de su corazón.
+
+Nunca olvides lo especial que eres. 💗
+
+Con mucho cariño, para ti. 🥰❤️</div>
+
+        <p style="margin-top: 22px;">
+          <strong>Hecho especialmente para ti. 💖</strong>
+        </p>
+
+        <button class="main-button" onclick="openScreen('inicio')">
+          Volver al inicio 🏠
+        </button>
+      </div>
+    </section>
+
+  </main>
+
+  <footer>Hecho con mucho amor ❤️</footer>
+
+  <script>
+    // CAMBIAR DE SECCIÓN
+
+    function openScreen(id) {
+      document.querySelectorAll(".screen").forEach(screen => {
+        screen.classList.remove("active");
+      });
+
+      document.getElementById(id).classList.add("active");
+
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+
+    // CORAZONES FLOTANTES
+
+    function createFloatingHeart() {
+      const heart = document.createElement("div");
+      heart.className = "floating-heart";
+
+      const hearts = ["💗", "💖", "💕", "💘", "💞"];
+      heart.textContent =
+        hearts[Math.floor(Math.random() * hearts.length)];
+
+      heart.style.left = Math.random() * 100 + "vw";
+      heart.style.fontSize = (15 + Math.random() * 20) + "px";
+
+      const duration = 5 + Math.random() * 5;
+      heart.style.animationDuration = duration + "s";
+
+      document.body.appendChild(heart);
+      setTimeout(() => heart.remove(), duration * 1000);
+    }
+
+    setInterval(createFloatingHeart, 700);
+
+    // JUEGO ATRAPA CORAZONES
+
+    let score = 0;
+    let timeLeft = 15;
+    let gameInterval = null;
+    let heartInterval = null;
+    let gameRunning = false;
+
+    const heartArena = document.getElementById("heartArena");
+    const scoreDisplay = document.getElementById("score");
+    const timeDisplay = document.getElementById("time");
+    const gameResult = document.getElementById("gameResult");
+    const startGameButton = document.getElementById("startGame");
+
+    function startGame() {
+      clearInterval(gameInterval);
+      clearInterval(heartInterval);
+
+      score = 0;
+      timeLeft = 15;
+      gameRunning = true;
+
+      scoreDisplay.textContent = score;
+      timeDisplay.textContent = timeLeft;
+      gameResult.textContent = "";
+      heartArena.innerHTML = "";
+
+      startGameButton.disabled = true;
+      startGameButton.textContent = "¡Atrapa los corazones! 💗";
+
+      heartInterval = setInterval(createGameHeart, 650);
+
+      gameInterval = setInterval(() => {
+        timeLeft--;
+        timeDisplay.textContent = timeLeft;
+
+        if (timeLeft <= 0) {
+          endGame();
+        }
+      }, 1000);
+    }
+
+    function createGameHeart() {
+      if (!gameRunning) return;
+
+      const heart = document.createElement("button");
+      heart.className = "game-heart";
+      heart.textContent = ["💗", "💖", "💘"][
+        Math.floor(Math.random() * 3)
+      ];
+
+      const maxX = Math.max(0, heartArena.clientWidth - 45);
+      const maxY = Math.max(0, heartArena.clientHeight - 45);
+
+      heart.style.left = Math.random() * maxX + "px";
+      heart.style.top = Math.random() * maxY + "px";
+
+      heart.addEventListener("click", () => {
+        if (!gameRunning) return;
+
+        score++;
+        scoreDisplay.textContent = score;
+        heart.remove();
+      });
+
+      heartArena.appendChild(heart);
+      setTimeout(() => heart.remove(), 1400);
+    }
+
+    function endGame() {
+      gameRunning = false;
+      clearInterval(gameInterval);
+      clearInterval(heartInterval);
+
+      heartArena.innerHTML = "";
+      startGameButton.disabled = false;
+      startGameButton.textContent = "Jugar de nuevo 💕";
+
+      gameResult.textContent =
+        "¡Tiempo terminado! Conseguíste " + score +
+        " corazones. ¡Eres especial! 💖";
+    }
+
+    // JUEGO ¿ME QUIERES?
+
+    const noBtn = document.getElementById("noBtn");
+    const loveArena = document.getElementById("loveArena");
+    const noMessage = document.getElementById("noMessage");
+    const loveSuccess = document.getElementById("loveSuccess");
+
+    const noMessages = [
+      "¿Seguro? Piénsalo otra vez 🥺",
+      "Ese botón no te va a ayudar 🙈",
+      "¡Intenta de nuevo! 😂💕",
+      "Yo creo que sí me quieres 😍",
+      "El sí está más bonito ❤️",
+      "¿Y si mejor presionas que sí? 🥹"
+    ];
+
+    let noCount = 0;
+
+    function moveNoButton() {
+      const arenaRect = loveArena.getBoundingClientRect();
+
+      const maxX = Math.max(0, arenaRect.width - noBtn.offsetWidth);
+      const maxY = Math.max(0, arenaRect.height - noBtn.offsetHeight);
+
+      noBtn.style.position = "absolute";
+      noBtn.style.left = Math.random() * maxX + "px";
+      noBtn.style.top = Math.random() * maxY + "px";
+
+      noMessage.textContent = noMessages[noCount % noMessages.length];
+      noCount++;
+    }
+
+    noBtn.addEventListener("pointerenter", moveNoButton);
+
+    noBtn.addEventListener("click", function(event) {
+      event.preventDefault();
+      moveNoButton();
+    });
+
+    function sayYes() {
+      loveSuccess.style.display = "block";
+      noMessage.textContent = "¡Sabía que dirías que sí! 💖";
+      noBtn.style.display = "none";
+
+      document.getElementById("yesBtn").textContent = "¡Siii! 💖";
+    }
+
+    function restartLoveGame() {
+      loveSuccess.style.display = "none";
+      noBtn.style.display = "inline-block";
+      noBtn.style.position = "relative";
+      noBtn.style.left = "auto";
+      noBtn.style.top = "auto";
+
+      document.getElementById("yesBtn").textContent =
+        "¡Sí, te quiero! ❤️";
+
+      noMessage.textContent =
+        "Piénsalo bien antes de responder... 👀";
+
+      noCount = 0;
+    }
+  </script>
+
+</body>
+</html>
