@@ -282,7 +282,7 @@
 
         <p>
           Si estás viendo esto, quiero que sepas que alguien
-          pensó en ti y quiso regalarte un pequeño detalle. ❤️
+          pensó en ti osea yo y quiso regalarte un pequeño detalle. ❤️
         </p>
 
         <p>
@@ -305,7 +305,7 @@
 
         <p>
           ¡Atrapa todos los corazones que puedas en 15 segundos!
-          Cada corazón que toques suma un punto.
+          Cada corazón que toques suma un punto atrapa muchos.
         </p>
 
         <div class="game-info">
